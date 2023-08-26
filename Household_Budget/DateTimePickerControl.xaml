@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Household_Budget.DateTimePickerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Household_Budget"
+             mc:Ignorable="d" 
+             d:DesignHeight="80" d:DesignWidth="300"  Loaded="UserControl_Loaded">
+    <Grid Margin="5" Style="{StaticResource ColoredGrid}">
+        <Grid.Resources>
+            <Style x:Key="{x:Type Label}" TargetType="{x:Type Label}">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Дата"/>
+        <DatePicker Name="DatePicker" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" Margin="0,5,5,5" SelectedDate="{Binding RelativeSource={RelativeSource AncestorType=local:DateTimePickerControl}, Path=SelectedDateTime, Mode=OneWay}" SelectedDateChanged="ChangeDateTime"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="Час"/>
+        <ComboBox Name="HoursPicker" Grid.Row="1" Grid.Column="1" Margin="0,5,5,5" SelectionChanged="ChangeDateTime"/>
+        <Label Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0" Content="год"/>
+        <ComboBox Name="MinutesPicker" Grid.Row="1" Grid.Column="3" Margin="5"/>
+        <Label Grid.Row="1" Grid.Column="4" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="хв"/>
+    </Grid>
+</UserControl>

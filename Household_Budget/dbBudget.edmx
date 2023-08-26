@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="dbBudget.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="dbBudgetStoreContainer">
+    <EntitySet Name="ExpenditureName" EntityType="dbBudget.Store.ExpenditureName" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Article" EntityType="dbBudget.Store.Article" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="IncomeSource" EntityType="dbBudget.Store.IncomeSource" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ExpenditureType" EntityType="dbBudget.Store.ExpenditureType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Article_Expenditure" EntityType="dbBudget.Store.Article_Expenditure" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Article_Income" EntityType="dbBudget.Store.Article_Income" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Expenditure_ExpenditureName" Association="dbBudget.Store.FK_Expenditure_ExpenditureName">
+      <End Role="ExpenditureName" EntitySet="ExpenditureName" />
+      <End Role="Expenditure" EntitySet="Article_Expenditure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Income_IncomeSource" Association="dbBudget.Store.FK_Income_IncomeSource">
+      <End Role="IncomeSource" EntitySet="IncomeSource" />
+      <End Role="Income" EntitySet="Article_Income" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Expenditure_ExpenditureType" Association="dbBudget.Store.FK_Expenditure_ExpenditureType">
+      <End Role="ExpenditureType" EntitySet="ExpenditureType" />
+      <End Role="Expenditure" EntitySet="Article_Expenditure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Expenditure_inherits_Article" Association="dbBudget.Store.FK_Expenditure_inherits_Article">
+      <End Role="Article" EntitySet="Article" />
+      <End Role="Expenditure" EntitySet="Article_Expenditure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Income_inherits_Article" Association="dbBudget.Store.FK_Income_inherits_Article">
+      <End Role="Article" EntitySet="Article" />
+      <End Role="Income" EntitySet="Article_Income" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ExpenditureName">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="Article">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IncomeSource">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="ExpenditureType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="Article_Expenditure">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="TypeId" Type="int" Nullable="false" />
+    <Property Name="NameId" Type="int" Nullable="false" />
+    <Property Name="Price" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="Summ" Type="decimal" StoreGeneratedPattern="Computed" Nullable="true" Precision="19" Scale="4" />
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Article_Income">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="SourceId" Type="int" Nullable="false" />
+    <Property Name="Summ" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Expenditure_ExpenditureName">
+    <End Role="ExpenditureName" Type="dbBudget.Store.ExpenditureName" Multiplicity="1" />
+    <End Role="Expenditure" Type="dbBudget.Store.Article_Expenditure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ExpenditureName">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Expenditure">
+        <PropertyRef Name="NameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Income_IncomeSource">
+    <End Role="IncomeSource" Type="dbBudget.Store.IncomeSource" Multiplicity="1" />
+    <End Role="Income" Type="dbBudget.Store.Article_Income" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IncomeSource">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Income">
+        <PropertyRef Name="SourceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Expenditure_ExpenditureType">
+    <End Role="ExpenditureType" Type="dbBudget.Store.ExpenditureType" Multiplicity="1" />
+    <End Role="Expenditure" Type="dbBudget.Store.Article_Expenditure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ExpenditureType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Expenditure">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Expenditure_inherits_Article">
+    <End Role="Article" Type="dbBudget.Store.Article" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Expenditure" Type="dbBudget.Store.Article_Expenditure" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Article">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Expenditure">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Income_inherits_Article">
+    <End Role="Article" Type="dbBudget.Store.Article" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Income" Type="dbBudget.Store.Article_Income" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Article">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Income">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="dbBudget" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="dbBudgetContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ExpenditureName" EntityType="dbBudget.ExpenditureName" />
+          <EntitySet Name="Article" EntityType="dbBudget.Article" />
+          <EntitySet Name="IncomeSource" EntityType="dbBudget.IncomeSource" />
+          <EntitySet Name="ExpenditureType" EntityType="dbBudget.ExpenditureType" />
+          <AssociationSet Name="FK_Expenditure_ExpenditureName" Association="dbBudget.FK_Expenditure_ExpenditureName">
+            <End Role="ExpenditureName" EntitySet="ExpenditureName" />
+            <End Role="Expenditure" EntitySet="Article" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Income_IncomeSource" Association="dbBudget.FK_Income_IncomeSource">
+            <End Role="IncomeSource" EntitySet="IncomeSource" />
+            <End Role="Income" EntitySet="Article" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Expenditure_ExpenditureType" Association="dbBudget.FK_Expenditure_ExpenditureType">
+            <End Role="ExpenditureType" EntitySet="ExpenditureType" />
+            <End Role="Expenditure" EntitySet="Article" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ExpenditureName">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Expenditure" Relationship="dbBudget.FK_Expenditure_ExpenditureName" FromRole="ExpenditureName" ToRole="Expenditure" />
+        </EntityType>
+        <EntityType Name="Expenditure" BaseType="dbBudget.Article">
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="NameId" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Summ" Type="Decimal" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="ExpenditureName" Relationship="dbBudget.FK_Expenditure_ExpenditureName" FromRole="Expenditure" ToRole="ExpenditureName" />
+          <NavigationProperty Name="ExpenditureType" Relationship="dbBudget.FK_Expenditure_ExpenditureType" FromRole="Expenditure" ToRole="ExpenditureType" />
+        </EntityType>
+        <EntityType Name="Article">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Income" BaseType="dbBudget.Article">
+          <Property Name="SourceId" Type="Int32" Nullable="false" />
+          <Property Name="Summ" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="IncomeSource" Relationship="dbBudget.FK_Income_IncomeSource" FromRole="Income" ToRole="IncomeSource" />
+        </EntityType>
+        <EntityType Name="IncomeSource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Income" Relationship="dbBudget.FK_Income_IncomeSource" FromRole="IncomeSource" ToRole="Income" />
+        </EntityType>
+        <EntityType Name="ExpenditureType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Expenditure" Relationship="dbBudget.FK_Expenditure_ExpenditureType" FromRole="ExpenditureType" ToRole="Expenditure" />
+        </EntityType>
+        <Association Name="FK_Expenditure_ExpenditureName">
+          <End Type="dbBudget.ExpenditureName" Role="ExpenditureName" Multiplicity="1" />
+          <End Type="dbBudget.Expenditure" Role="Expenditure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenditureName">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Expenditure">
+              <PropertyRef Name="NameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Income_IncomeSource">
+          <End Type="dbBudget.IncomeSource" Role="IncomeSource" Multiplicity="1" />
+          <End Type="dbBudget.Income" Role="Income" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IncomeSource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Income">
+              <PropertyRef Name="SourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Expenditure_ExpenditureType">
+          <End Type="dbBudget.ExpenditureType" Role="ExpenditureType" Multiplicity="1" />
+          <End Type="dbBudget.Expenditure" Role="Expenditure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenditureType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Expenditure">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="dbBudgetStoreContainer" CdmEntityContainer="dbBudgetContainer">
+    <EntitySetMapping Name="ExpenditureName">
+      <EntityTypeMapping TypeName="IsTypeOf(dbBudget.ExpenditureName)">
+        <MappingFragment StoreEntitySet="ExpenditureName">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Article">
+      <EntityTypeMapping TypeName="IsTypeOf(dbBudget.Article)">
+        <MappingFragment StoreEntitySet="Article">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(dbBudget.Expenditure)">
+        <MappingFragment StoreEntitySet="Article_Expenditure">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="NameId" ColumnName="NameId" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Summ" ColumnName="Summ" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(dbBudget.Income)">
+        <MappingFragment StoreEntitySet="Article_Income">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+          <ScalarProperty Name="Summ" ColumnName="Summ" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IncomeSource">
+      <EntityTypeMapping TypeName="IsTypeOf(dbBudget.IncomeSource)">
+        <MappingFragment StoreEntitySet="IncomeSource">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExpenditureType">
+      <EntityTypeMapping TypeName="IsTypeOf(dbBudget.ExpenditureType)">
+        <MappingFragment StoreEntitySet="ExpenditureType">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

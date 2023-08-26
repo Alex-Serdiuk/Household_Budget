@@ -1,0 +1,62 @@
+﻿<Window x:Class="Household_Budget.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Household_Budget"
+        mc:Ignorable="d"
+        Title="Домашній бюджет" Height="380" Width="800">
+    <Grid Style="{StaticResource ColoredGrid}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="195"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Calendar Grid.Row="0" x:Name="PreviewCalendar" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+
+        </Grid>
+        <TabControl Grid.ColumnSpan="2" Margin="194,0,26,0" >
+            <TabItem Header="Операції" >
+                <Grid Name="MainExpensesPanel" Style="{StaticResource ColoredGrid}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="37"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="37"/>
+                        <RowDefinition Height="35"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <DatePicker Name="ExpensesCurrentDate"  Grid.Row="0" Grid.Column="0" Margin="10,5,5,5" SelectedDate="{Binding Path=SelectedDate, ElementName=PreviewCalendar, Mode=TwoWay}"/>
+                    <ComboBox Name="ExpensesViewModePicker" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="5" Width="150" SelectionChanged="ExpensesViewModePicker_SelectionChanged">
+                        <ComboBoxItem>Всі</ComboBoxItem>
+                        <ComboBoxItem>День</ComboBoxItem>
+                        <ComboBoxItem>Тиждень</ComboBoxItem>
+                        <ComboBoxItem>Місяц</ComboBoxItem>
+                    </ComboBox>
+                    <Button Name="NewIncome" Content="Дохід" Grid.Row="0" Grid.Column="2" Margin="5" Width="70" HorizontalAlignment="Right" Click="NewIncome_Click"/>
+                    <Button Name="NewExpenditure" Content="Витрата" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Right" Margin="5" Width="70" Click="NewExpenditure_Click"/>
+                    <DatePicker Name="StartDate" Grid.Row="2" Grid.Column="0" Width="110"  Margin="0,5" SelectedDate="{Binding Path=SelectedDate, ElementName=ExpensesCurrentDate, Mode=OneWay}" SelectedDateChanged="GraphDates_SelectedDateChanged"/>
+                    <DatePicker Name="EndDate" Grid.Row="2" Grid.Column="1" Width="110"  Margin="5" SelectedDate="{Binding Path=SelectedDate, ElementName=ExpensesCurrentDate, Mode=OneWay}" SelectedDateChanged="GraphDates_SelectedDateChanged"/>
+                    <ComboBox Name="GraphMode" Grid.Row="2" Margin="5" Grid.Column="2" IsEnabled="False"/>
+                    <ComboBox Name="GraphType" Grid.Row="2" Margin="5" Grid.Column="3" SelectedIndex="0">
+                        <ComboBoxItem>Всі</ComboBoxItem>
+                        <ComboBoxItem>Доходи</ComboBoxItem>
+                        <ComboBoxItem>Витрати</ComboBoxItem>
+                    </ComboBox>
+                    <Button Name="ShowGraph" Grid.Row="3" Grid.Column="2" Margin ="5" Width="70" HorizontalAlignment="Right" Content="Графік" Click="ShowGraph_Click" IsEnabled="False"/>
+                    <Button Name="ShowDiagram" Grid.Row="3" Grid.Column="3" Margin="5" Width="70" HorizontalAlignment="Right" Content="Діаграма" Click="ShowDiagram_Click" IsEnabled="False"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+
+    </Grid>
+</Window>

@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="Household_Budget.AllExpensesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Household_Budget"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="485" HorizontalAlignment="Left" VerticalAlignment="Top">
+    <UserControl.Resources>
+        <local:MyTypeToImageSourceConverter x:Key="TypeToImageConverter"/>
+    </UserControl.Resources>
+    <Grid Style="{StaticResource ColoredGrid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid Grid.Row="0" Grid.ColumnSpan="2" Name="ExpensesList" EnableColumnVirtualization="True"
+                              AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True"
+              VerticalAlignment="Top" HorizontalAlignment="Left" Width="auto" Height="150"
+              HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden" MouseDoubleClick="ExensesList_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Тип" Width="30">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Path=Type, Converter={StaticResource TypeToImageConverter}}" Height="25" Width="25"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn x:Name="DateColumn" Header="Дата" Width="70" Binding="{Binding Path=DateTime, StringFormat={}{0:dd MM yyyy}}"/>
+                <DataGridTextColumn x:Name="NameColumn" Header="Назва" Width="*" Binding="{Binding Path=FullName}"/>
+                <DataGridTextColumn x:Name="MoneyColumnn" Header="Сума" Width="80" Binding="{Binding Money, StringFormat={}{0:0.####}}" />
+                <DataGridTemplateColumn Header="Видалити" Width="55">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Х" Style="{StaticResource DeleteButtonStyle}" x:Name="DeleteButton" Margin="2" Width="25" Command="{Binding IngrediendtDeleteCommand}" HorizontalAlignment="Center" Click="DeleteButton_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Name="Previous" Grid.Row="1" Grid.Column="0" Content="&lt;&lt;" Margin="5" Width="70" Height="20" HorizontalAlignment="Left" Click="Previous_Click" Visibility="Hidden"/>
+        <Button Name="Next" Grid.Row="1" Grid.Column="1" Margin="5" Width="70" Height="20" Content="&gt;&gt;" HorizontalAlignment="Right" Click="Next_Click" Visibility="Hidden"/>
+        <ComboBox Name="ViewType" Grid.Row="2" Grid.Column="0" Width="150" HorizontalAlignment="Left" Margin="5,0,0,0" SelectionChanged="ViewType_SelectionChanged">
+            <ComboBoxItem>Всі</ComboBoxItem>
+            <ComboBoxItem>Витрати</ComboBoxItem>
+            <ComboBoxItem>Доходи</ComboBoxItem>
+        </ComboBox>
+        <Label Name="Total" Grid.Row="2" Grid.Column="1" Margin="0,0,5,0" HorizontalAlignment="Right"/>
+
+    </Grid>
+</UserControl>
